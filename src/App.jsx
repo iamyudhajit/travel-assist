@@ -35,7 +35,7 @@ function App() {
       <Logo />
       <Form onAddItems={handleAddItems}/>
       <PackingList items={items} onDeleteItem = {handleDeleteItem} onCheckedItem = {handleCheckItem}/>
-      <Stats />
+      <Stats items={items}/>
     </>
   );
 }
@@ -121,10 +121,23 @@ function PackingList({items , onDeleteItem, onCheckedItem}) {
   );
 }
 
-function Stats() {
+function Stats({items}) {
+  if(items.length==0){
+    return (
+      <footer className="stats">
+        Start listing items to pack! 🧳
+      </footer>
+    );
+  }
+  
+  const numItems = items.length;
+  const packedItems = items.filter((item)=>item.packed).length;
+  const packedPercentage = Math.round((packedItems/numItems)*100);
+
+
   return (
     <footer className="stats">
-      You hav X items on your list, and you already packed X (X%)
+      {packedPercentage<100 ? `You have ${numItems} items on your list, and you already packed ${packedItems} (${packedPercentage}%)` : "Your are all packed!! ✈️"}
     </footer>
   );
 }
