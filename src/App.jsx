@@ -9,6 +9,10 @@ const initialItems = [
 function App() {
   const [items, setItems] = useState([]);
 
+  function deleteEverything(){
+    setItems([]);
+  }
+
   function handleAddItems(item) {
     setItems((items) => [...items, item]);
   }
@@ -34,7 +38,7 @@ function App() {
     <>
       <Logo />
       <Form onAddItems={handleAddItems}/>
-      <PackingList items={items} onDeleteItem = {handleDeleteItem} onCheckedItem = {handleCheckItem}/>
+      <PackingList items={items} onDeleteItem = {handleDeleteItem} onCheckedItem = {handleCheckItem} onClear = {deleteEverything}/>
       <Stats items={items}/>
     </>
   );
@@ -108,7 +112,7 @@ function Item({ item , onDeleteItem , onCheckedItem}) {
   );
 }
 
-function PackingList({items , onDeleteItem, onCheckedItem}) {
+function PackingList({items , onDeleteItem, onCheckedItem, onClear}) {
 
   const[sortBy, setSortBy] = useState("input");
 
@@ -141,6 +145,7 @@ function PackingList({items , onDeleteItem, onCheckedItem}) {
           <option value="description">Sort by description order</option>
           <option value="packed">Sort By packed status</option>
         </select>
+        <button onClick={onClear}>Clear List</button>
       </div>
     </div>
   );
